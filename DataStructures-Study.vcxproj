@@ -139,8 +139,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Lista duplamente ligada.c" />
-    <ClCompile Include="Lista ligada.c" />
+    <ClCompile Include="Lista duplamente ligada\Lista duplamente ligada.c" />
+    <ClCompile Include="Lista ligada\Lista ligada.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,25 +3,28 @@
 
 typedef struct Node {
 	int valor;
-	struct Node* prox;
+	struct No* prox;
+	struct No* prev;
 }node;
 
 typedef node* No;
 
 typedef struct Cabeça {
-	struct No* inicio;
+	struct Node* inicio;
+	struct Node* fim;
 }cabeça;
 
 typedef cabeça* Head;
 
-No llCriaNo(int valor) {
+No ldlCriaNo(int valor) {
 	No novono = malloc(sizeof(No));
 	novono->prox = NULL;
+	novono->prev = NULL;
 	novono->valor = valor;
 	return novono;
 }
 
-void llPrintar(Head head) {
+void ldlPrintar(Head head) {
 	if (head->inicio == NULL) {
 		printf("Lista vazia\n");
 		return;
@@ -34,96 +37,92 @@ void llPrintar(Head head) {
 	printf("\n");
 }
 
-void llInserirFinal(Head head, int valor) {
+void ldlInserirFinal(Head head, int valor) {
+	No novono = ldlCriaNo(valor);
 	if (head->inicio == NULL) {
-		No novono = llCriaNo(valor);
 		head->inicio = novono;
-		novono->valor = valor;
+		head->fim = novono;
 	}
 	else {
-		No aux = llCriaNo(NULL);
+		head->fim->prox = novono;
+		novono->prev = head->fim;
+		head->fim = novono;
+	}
+}
 
-		aux = head->inicio;
+void ldlInserirInicio(Head head, int valor) {
+	if (head->inicio == NULL) {
+		No novono = ldlCriaNo(valor);
+		head->inicio = novono;
+		head->fim = novono;
+	}
+	else {
+		No aux = ldlCriaNo(NULL);
+		No novono = ldlCriaNo(valor);
 
-		while (aux->prox != NULL) {
-			aux = aux->prox;
+		novono->prox = head->inicio;
+		head->inicio = novono;
+	}
+}
+
+void ldlRemoveFim(Head head) {
+	if (head->inicio != NULL) {
+		if (head->inicio == head->fim) {
+			head->fim = NULL;
+			return;
 		}
-
-		No novono = llCriaNo(valor);
-		aux->prox = novono;
-		novono->valor = valor;
-	}
-}
-
-void llInserirInicio(Head head, int valor) {
-	if (head->inicio == NULL) {
-		No novono = llCriaNo(valor);
-		head->inicio = novono;
-		novono->valor = valor;
+		head->fim = head->fim->prev;
+		head->fim->prox = NULL;
 	}
 	else {
-		No aux = llCriaNo(NULL);
-		No novono = llCriaNo(valor);
-		aux->prox = head->inicio;
-		head->inicio = novono;
-		novono->prox = aux->prox;
-	}
-}
-
-void llRemoveFim(Head head) {
-	
-	No aux = llCriaNo(NULL);
-	No prev = llCriaNo(NULL);
-	if (head->inicio == NULL) {
 		printf("Lista vazia\n");
-	}else aux = head->inicio;
-	
-	while (aux->prox != NULL) {
-		prev = aux;
-		aux = aux->prox;
 	}
-	prev->prox = NULL;
 }
 
-void llRemoveInicio(Head head) {
+void ldlRemoveInicio(Head head) {
 	if (head->inicio == NULL) {
 		printf("Lista vazia\n");
 		return;
 	}
-	No primeiro = head->inicio;
-	head->inicio = primeiro->prox;
+	head->inicio = head->inicio->prox;
+	head->inicio->prev = NULL;
 }
 
-void llInserirApos(Head head, int index, int valor) {
-	No aux = llCriaNo(NULL);
+void ldlInserirApos(Head head, int index, int valor) {
+	No aux = ldlCriaNo(NULL);
+	No novono = ldlCriaNo(valor);
 	aux = head->inicio;
 	while (aux->valor != index) {
 		aux = aux->prox;
 		if (aux->prox == NULL) {
 			printf("Valor não encontrado\n");
 			return;
-		} 
+		}
 	}
-	No novono = llCriaNo(valor);
 	novono->prox = aux->prox;
+	novono->prev = aux;
+	aux = aux->prox;
+	aux->prev = novono;
+	aux = novono->prev;
 	aux->prox = novono;
 }
 
-void llInserirAntes(Head head, int index, int valor) {
-	No aux = llCriaNo(NULL);
-	No prev = llCriaNo(NULL);
+void ldlInserirAntes(Head head, int index, int valor) {
+	No aux = ldlCriaNo(NULL);
+	No novono = ldlCriaNo(valor);
 	aux = head->inicio;
 	while (aux->valor != index) {
-		prev = aux;
 		aux = aux->prox;
 		if (aux == NULL) {
 			printf("Valor não encontrado\n");
 			return;
 		}
 	}
-	No novono = llCriaNo(valor);
+	novono->prev = aux->prev;
 	novono->prox = aux;
-	prev->prox = novono;
+	aux->prev = novono;
+	aux = novono->prev;
+	aux->prox = novono;
 }
 
 int main() {
@@ -134,6 +133,7 @@ int main() {
 
 	Head head = malloc(sizeof(head));
 	head->inicio = NULL;
+	head->fim = NULL;
 
 	do {
 
@@ -151,35 +151,35 @@ int main() {
 		case 1:
 			printf("Qual valor deseja inserir? ");
 			scanf_s("%d", &valor);
-			llInserirInicio(head, valor);
+			ldlInserirInicio(head, valor);
 			break;
 		case 2:
 			printf("Qual valor deseja inserir? ");
 			scanf_s("%d", &valor);
-			llInserirFinal(head, valor);
+			ldlInserirFinal(head, valor);
 			break;
 		case 3:
-			llPrintar(head);
+			ldlPrintar(head);
 			break;
 		case 4:
-			llRemoveFim(head);
+			ldlRemoveFim(head);
 			break;
 		case 5:
-			llRemoveInicio(head);
+			ldlRemoveInicio(head);
 			break;
 		case 6:
 			printf("Qual valor deseja inserir? ");
 			scanf_s("%d", &valor);
 			printf("Após qual valor? ");
 			scanf_s("%d", &index);
-			llInserirApos(head, index, valor);
+			ldlInserirApos(head, index, valor);
 			break;
 		case 7:
 			printf("Qual valor deseja inserir? ");
 			scanf_s("%d", &valor);
 			printf("Antes de qual valor? ");
 			scanf_s("%d", &index);
-			llInserirAntes(head, index, valor);
+			ldlInserirAntes(head, index, valor);
 			break;
 		}
 
