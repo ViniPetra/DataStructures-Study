@@ -10,7 +10,7 @@ typedef node* No;
 
 typedef struct Cabeça {
 	struct No* inicio;
-	struct No* fim;
+	//struct No* fim;
 }cabeça;
 
 typedef cabeça* Head;
@@ -82,19 +82,34 @@ void llRemoveFim(Head head) {
 	prev->prox = NULL;
 }
 
-llRemoveInicio(Head head) {
+void llRemoveInicio(Head head) {
 	No primeiro = head->inicio;
 	head->inicio = primeiro->prox;
+}
+
+void llInserirApos(Head head, int index, int valor) {
+	No aux = llCriaNo(NULL);
+	aux = head->inicio;
+	while (aux->valor != index) {
+		aux = aux->prox;
+		if (aux->prox == NULL) {
+			printf("Valor não encontrado");
+			return;
+		} 
+	}
+	No novono = llCriaNo(valor);
+	novono->prox = aux->prox;
+	aux->prox = novono;
 }
 
 int main() {
 
 	int opc = 0;
 	int valor;
+	int index;
 
 	Head head = malloc(sizeof(head));
 	head->inicio = NULL;
-	head->fim = NULL;
 
 	do {
 
@@ -103,6 +118,7 @@ int main() {
 		printf("3 - Visualizar\n");
 		printf("4 - Remover fim\n");
 		printf("5 - Remover Inicio\n");
+		printf("6 - Inserir após\n");
 
 		scanf_s("%d", &opc);
 
@@ -126,6 +142,14 @@ int main() {
 		case 5:
 			llRemoveInicio(head);
 			break;
+		case 6:
+			printf("Qual valor deseja inserir? ");
+			scanf_s("%d", &valor);
+			printf("Após qual valor? ");
+			scanf_s("%d", &index);
+			llInserirApos(head, index, valor);
+			break;
+
 		}
 
 	} while (opc);

@@ -15,7 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Base.c">
+    <ClCompile Include="Lista ligada.c">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="Lista duplamente ligada.c">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
   </ItemGroup>
