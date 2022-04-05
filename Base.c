@@ -29,7 +29,7 @@ void llPrintar(Head head) {
 		printf("%d ", aux->valor);
 	}
 	printf("\n");
-}
+}//Vai dar segmentation fault pq n tem verificador de lista vazia
 
 void llInserirFinal(Head head, int valor) {
 	if (head->inicio == NULL) {
@@ -67,6 +67,21 @@ void llInserirInicio(Head head, int valor) {
 	}
 }
 
+void llRemoveFim(Head head) {
+	
+	No aux = llCriaNo(NULL);
+	No prev = llCriaNo(NULL);
+	if (head->inicio == NULL) {
+		printf("Lista vazia\n");
+	}else aux = head->inicio;
+	
+	while (aux->prox != NULL) {
+		prev = aux;
+		aux = aux->prox;
+	}
+	prev->prox = NULL;
+}
+
 int main() {
 
 	int opc = 0;
@@ -81,6 +96,7 @@ int main() {
 		printf("1 - Inserir início\n");
 		printf("2 - Inserir fim\n");
 		printf("3 - Visualizar\n");
+		printf("4 - Remover fim\n");
 
 		scanf_s("%d", &opc);
 
@@ -97,6 +113,9 @@ int main() {
 			break;
 		case 3:
 			llPrintar(head);
+			break;
+		case 4:
+			llRemoveFim(head);
 			break;
 		}
 
