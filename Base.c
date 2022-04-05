@@ -82,6 +82,11 @@ void llRemoveFim(Head head) {
 	prev->prox = NULL;
 }
 
+llRemoveInicio(Head head) {
+	No primeiro = head->inicio;
+	head->inicio = primeiro->prox;
+}
+
 int main() {
 
 	int opc = 0;
@@ -97,6 +102,7 @@ int main() {
 		printf("2 - Inserir fim\n");
 		printf("3 - Visualizar\n");
 		printf("4 - Remover fim\n");
+		printf("5 - Remover Inicio\n");
 
 		scanf_s("%d", &opc);
 
@@ -116,6 +122,9 @@ int main() {
 			break;
 		case 4:
 			llRemoveFim(head);
+			break;
+		case 5:
+			llRemoveInicio(head);
 			break;
 		}
 
