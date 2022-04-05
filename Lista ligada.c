@@ -10,7 +10,6 @@ typedef node* No;
 
 typedef struct Cabeça {
 	struct No* inicio;
-	//struct No* fim;
 }cabeça;
 
 typedef cabeça* Head;
@@ -23,13 +22,17 @@ No llCriaNo(int valor) {
 }
 
 void llPrintar(Head head) {
-	
+	if (head->inicio == NULL) {
+		printf("Lista vazia\n");
+		return;
+	}
+
 	for (No aux = head->inicio; aux != NULL; aux = aux->prox)
 	{
 		printf("%d ", aux->valor);
 	}
 	printf("\n");
-}//Vai dar segmentation fault pq n tem verificador de lista vazia
+}
 
 void llInserirFinal(Head head, int valor) {
 	if (head->inicio == NULL) {
@@ -46,7 +49,7 @@ void llInserirFinal(Head head, int valor) {
 			aux = aux->prox;
 		}
 
-		No novono =llCriaNo(valor);
+		No novono = llCriaNo(valor);
 		aux->prox = novono;
 		novono->valor = valor;
 	}
@@ -83,6 +86,10 @@ void llRemoveFim(Head head) {
 }
 
 void llRemoveInicio(Head head) {
+	if (head->inicio == NULL) {
+		printf("Lista vazia\n");
+		return;
+	}
 	No primeiro = head->inicio;
 	head->inicio = primeiro->prox;
 }
@@ -93,7 +100,7 @@ void llInserirApos(Head head, int index, int valor) {
 	while (aux->valor != index) {
 		aux = aux->prox;
 		if (aux->prox == NULL) {
-			printf("Valor não encontrado");
+			printf("Valor não encontrado\n");
 			return;
 		} 
 	}
@@ -109,8 +116,8 @@ void llInserirAntes(Head head, int index, int valor) {
 	while (aux->valor != index) {
 		prev = aux;
 		aux = aux->prox;
-		if (aux->prox == NULL) {
-			printf("Valor não encontrado");
+		if (aux == NULL) {
+			printf("Valor não encontrado\n");
 			return;
 		}
 	}
