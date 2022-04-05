@@ -102,6 +102,23 @@ void llInserirApos(Head head, int index, int valor) {
 	aux->prox = novono;
 }
 
+void llInserirAntes(Head head, int index, int valor) {
+	No aux = llCriaNo(NULL);
+	No prev = llCriaNo(NULL);
+	aux = head->inicio;
+	while (aux->valor != index) {
+		prev = aux;
+		aux = aux->prox;
+		if (aux->prox == NULL) {
+			printf("Valor não encontrado");
+			return;
+		}
+	}
+	No novono = llCriaNo(valor);
+	novono->prox = aux;
+	prev->prox = novono;
+}
+
 int main() {
 
 	int opc = 0;
@@ -119,6 +136,7 @@ int main() {
 		printf("4 - Remover fim\n");
 		printf("5 - Remover Inicio\n");
 		printf("6 - Inserir após\n");
+		printf("7 - Inserir antes\n");
 
 		scanf_s("%d", &opc);
 
@@ -149,7 +167,13 @@ int main() {
 			scanf_s("%d", &index);
 			llInserirApos(head, index, valor);
 			break;
-
+		case 7:
+			printf("Qual valor deseja inserir? ");
+			scanf_s("%d", &valor);
+			printf("Antes de qual valor? ");
+			scanf_s("%d", &index);
+			llInserirAntes(head, index, valor);
+			break;
 		}
 
 	} while (opc);
